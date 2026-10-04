@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIcoin Civic Portal | Eco-Transit Micro-Hubs</title>
+    <!-- Tailwind CSS CDN for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-600 p-2 rounded-lg border border-emerald-500">
+                    <i class="fa-solid fa-leaf text-xl text-emerald-200"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-wide">NIcoin Civic Portal</h1>
+                    <p class="text-xs text-emerald-200">Eco-Transit Micro-Hubs • Viksit Bharat 2047</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-2 bg-emerald-800 px-3 py-1.5 rounded-full border border-emerald-600 text-sm">
+                    <i class="fa-solid fa-coins text-amber-400"></i>
+                    <span class="font-semibold text-emerald-100">Wallet:</span>
+                    <span id="header-balance" class="text-amber-300 font-bold">450 NIcoins</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="User Profile" class="w-9 h-9 rounded-full border-2 border-emerald-400 object-cover">
+                    <span class="hidden sm:inline font-medium text-sm">Ananya Sharma</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Sidebar Navigation -->
+        <aside class="lg:col-span-1 space-y-2">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                <nav class="space-y-1">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition bg-emerald-50 text-emerald-700">
+                        <i class="fa-solid fa-chart-pie w-5"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('deposits')" id="nav-deposits" class="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <i class="fa-solid fa-recycle w-5"></i>
+                        <span>Waste Deposits</span>
+                    </button>
+                    <button onclick="switchTab('rewards')" id="nav-rewards" class="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <i class="fa-solid fa-store w-5"></i>
+                        <span>Rewards Marketplace</span>
+                    </button>
+                    <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <i class="fa-solid fa-trophy w-5"></i>
+                        <span>Ward Leaderboard</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Quick Info Card -->
+            <div class="bg-gradient-to-br from-emerald-800 to-teal-900 text-white rounded-xl p-5 shadow-sm">
+                <h3 class="font-semibold text-sm text-emerald-200 mb-1"><i class="fa-solid fa-qrcode mr-1"></i> Quick Hub Scan</h3>
+                <p class="text-xs text-emerald-100 mb-3">Scan the QR code at any Eco-Transit Micro-Hub container to log your deposit instantly.</p>
+                <button onclick="simulateDeposit()" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold py-2 px-4 rounded-lg text-xs transition shadow-sm">
+                    Simulate New Deposit
+                </button>
+            </div>
+        </aside>
+
+        <!-- Dynamic Content Area -->
+        <section class="lg:col-span-3 space-y-6">
+
+            <!-- TAB 1: DASHBOARD -->
+            <div id="tab-dashboard" class="space-y-6">
+                <!-- Stats Overview Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-slate-500 uppercase">Total NIcoins Earned</p>
+                                <h3 id="dash-balance" class="text-2xl font-bold text-slate-800 mt-1">450</h3>
+                            </div>
+                            <div class="bg-amber-50 p-3 rounded-lg text-amber-600">
+                                <i class="fa-solid fa-coins text-lg"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-emerald-600 mt-2 font-medium"><i class="fa-solid fa-arrow-up"></i> +50 this week</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-slate-500 uppercase">Waste Diverted</p>
+                                <h3 class="text-2xl font-bold text-slate-800 mt-1">14.2 kg</h3>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg text-emerald-600">
+                                <i class="fa-solid fa-scale-balanced text-lg"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-emerald-600 mt-2 font-medium">8.4kg Dry | 5.8kg Wet</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-slate-500 uppercase">Citizen Tier</p>
+                                <h3 class="text-2xl font-bold text-emerald-700 mt-1">Green Elite</h3>
+                            </div>
+                            <div class="bg-teal-50 p-3 rounded-lg text-teal-600">
+                                <i class="fa-solid fa-medal text-lg"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">Next tier: Eco Champion (800 pts)</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Table -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800">Recent Micro-Hub Deposits</h3>
+                        <button onclick="switchTab('deposits')" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">View All</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                                    <th class="py-3 px-5">Hub Location</th>
+                                    <th class="py-3 px-5">Category</th>
+                                    <th class="py-3 px-5">Weight</th>
+                                    <th class="py-3 px-5">NIcoins Earned</th>
+                                    <th class="py-3 px-5">Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-deposits-body" class="divide-y divide-slate-100 text-slate-700">
+                                <tr>
+                                    <td class="py-3 px-5 font-medium">Hub #04 - Market Ward</td>
+                                    <td class="py-3 px-5"><span class="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-semibold">Dry Recyclable</span></td>
+                                    <td class="py-3 px-5">1.5 kg</td>
+                                    <td class="py-3 px-5 font-bold text-emerald-600">+15 Coins</td>
+                                    <td class="py-3 px-5 text-slate-400 text-xs">Today, 09:15 AM</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-5 font-medium">Hub #02 - Station Road</td>
+                                    <td class="py-3 px-5"><span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">Compostable Wet</span></td>
+                                    <td class="py-3 px-5">3.0 kg</td>
+                                    <td class="py-3 px-5 font-bold text-emerald-600">+30 Coins</td>
+                                    <td class="py-3 px-5 text-slate-400 text-xs">Oct 2, 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: DEPOSITS -->
+            <div id="tab-deposits" class="hidden space-y-6">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800 text-lg">Complete Deposit Log</h3>
+                        <button onclick="simulateDeposit()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg text-xs transition">
+                            + Simulate Deposit
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                                    <th class="py-3 px-4">Transaction ID</th>
+                                    <th class="py-3 px-4">Hub Station</th>
+                                    <th class="py-3 px-4">Category</th>
+                                    <th class="py-3 px-4">Weight</th>
+                                    <th class="py-3 px-4">Reward</th>
+                                    <th class="py-3 px-4">Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="full-deposits-body" class="divide-y divide-slate-100 text-slate-700">
+                                <!-- Populated dynamically by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: REWARDS -->
+            <div id="tab-rewards" class="hidden space-y-6">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 text-lg mb-1">Civic Rewards Marketplace</h3>
+                    <p class="text-xs text-slate-500 mb-6">Redeem your earned NIcoins for municipal utility discounts, transport passes, and partner perks.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Reward Item 1 -->
+                        <div class="border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:shadow-md transition">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bg-purple-50 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-full">Transport</span>
+                                    <span class="font-bold text-amber-600 text-sm"><i class="fa-solid fa-coins mr-1"></i> 100 Coins</span>
+                                </div>
+                                <h4 class="font-bold text-slate-800">Metro / Bus Day Pass Waiver</h4>
+                                <p class="text-xs text-slate-500 mt-1">Get 50% off on your municipal public transport transit pass for 1 day.</p>
+                            </div>
+                            <button onclick="redeemReward('Metro Pass', 100)" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg text-xs transition">Redeem Voucher</button>
+                        </div>
+
+                        <!-- Reward Item 2 -->
+                        <div class="border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:shadow-md transition">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bg-amber-50 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full">Municipal Benefit</span>
+                                    <span class="font-bold text-amber-600 text-sm"><i class="fa-solid fa-coins mr-1"></i> 250 Coins</span>
+                                </div>
+                                <h4 class="font-bold text-slate-800">Property / Parking Tax Offset</h4>
+                                <p class="text-xs text-slate-500 mt-1">Redeem coins for standard municipal parking exemptions or local utility offsets.</p>
+                            </div>
+                            <button onclick="redeemReward('Tax Offset', 250)" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg text-xs transition">Redeem Voucher</button>
+                        </div>
+
+                        <!-- Reward Item 3 -->
+                        <div class="border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:shadow-md transition">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">Local Partner</span>
+                                    <span class="font-bold text-amber-600 text-sm"><i class="fa-solid fa-coins mr-1"></i> 75 Coins</span>
+                                </div>
+                                <h4 class="font-bold text-slate-800">Organic Compost Bag (5kg)</h4>
+                                <p class="text-xs text-slate-500 mt-1">Collect high-grade organic fertilizer processed directly from micro-hub compost units.</p>
+                            </div>
+                            <button onclick="redeemReward('Compost Bag', 75)" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg text-xs transition">Redeem Voucher</button>
+                        </div>
+
+                        <!-- Reward Item 4 -->
+                        <div class="border border-slate-200 rounded-xl p-4 flex flex-col justify-between hover:shadow-md transition">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">Heritage & Culture</span>
+                                    <span class="font-bold text-amber-600 text-sm"><i class="fa-solid fa-coins mr-1"></i> 150 Coins</span>
+                                </div>
+                                <h4 class="font-bold text-slate-800">District Museum Entry Pass</h4>
+                                <p class="text-xs text-slate-500 mt-1">Complimentary family pass to state heritage monuments and botanical gardens.</p>
+                            </div>
+                            <button onclick="redeemReward('Museum Pass', 150)" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg text-xs transition">Redeem Voucher</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: LEADERBOARD -->
+            <div id="tab-leaderboard" class="hidden space-y-6">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 text-lg mb-1">Ward Civic Engagement Leaderboard</h3>
+                    <p class="text-xs text-slate-500 mb-4">Top participating wards and active citizens driving Viksit Bharat zero-waste goals.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <span class="font-bold text-emerald-800 w-6 text-center">1</span>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800">Market Ward (#04)</h4>
+                                    <p class="text-xs text-slate-500">1,420 kg total waste recycled</p>
+                                </div>
+                            </div>
+                            <span class="font-bold text-emerald-700 text-sm">14,200 NIcoins</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <span class="font-bold text-slate-600 w-6 text-center">2</span>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800">Station Road Ward (#02)</h4>
+                                    <p class="text-xs text-slate-500">1,180 kg total waste recycled</p>
+                                </div>
+                            </div>
+                            <span class="font-bold text-slate-700 text-sm">11,850 NIcoins</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <span class="font-bold text-slate-600 w-6 text-center">3</span>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800">Coastal Zone Ward (#07)</h4>
+                                    <p class="text-xs text-slate-500">990 kg total waste recycled</p>
+                                </div>
+                            </div>
+                            <span class="font-bold text-slate-700 text-sm">9,940 NIcoins</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- JavaScript Interactive Logic -->
+    <script>
+        // State Variables
+        let userBalance = 450;
+        let depositsData = [
+            { id: "TXN-9842", hub: "Hub #04 - Market Ward", category: "Dry Recyclable", weight: "1.5 kg", coins: 15, time: "Today, 09:15 AM" },
+            { id: "TXN-9811", hub: "Hub #02 - Station Road", category: "Compostable Wet", weight: "3.0 kg", coins: 30, time: "Oct 2, 2026" }
+        ];
+
+        // Tab Switching Function
+        function switchTab(tabId) {
+            const tabs = ['dashboard', 'deposits', 'rewards', 'leaderboard'];
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                document.getElementById('nav-' + t).className = "w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition text-slate-600 hover:bg-slate-50 hover:text-slate-900";
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('nav-' + tabId).className = "w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition bg-emerald-50 text-emerald-700";
+            
+            if(tabId === 'deposits') renderDepositsTable();
+        }
+
+        // Render Deposits Tables
+        function renderDepositsTable() {
+            const fullBody = document.getElementById('full-deposits-body');
+            fullBody.innerHTML = depositsData.map(d => `
+                <tr>
+                    <td class="py-3 px-4 font-mono text-xs text-slate-500">${d.id}</td>
+                    <td class="py-3 px-4 font-medium">${d.hub}</td>
+                    <td class="py-3 px-4"><span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">${d.category}</span></td>
+                    <td class="py-3 px-4">${d.weight}</td>
+                    <td class="py-3 px-4 font-bold text-emerald-600">+${d.coins} Coins</td>
+                    <td class="py-3 px-4 text-slate-400 text-xs">${d.time}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Simulate IoT Micro-Hub Deposit
+        function simulateDeposit() {
+            userBalance += 20;
+            const newTxn = {
+                id: "TXN-" + Math.floor(1000 + Math.random() * 9000),
+                hub: "Hub #01 - Central Plaza",
+                category: "Dry Recyclable",
+                weight: "2.0 kg",
+                coins: 20,
+                time: "Just now"
+            };
+            depositsData.unshift(newTxn);
+            
+            // Update UI Counters
+            document.getElementById('header-balance').innerText = userBalance + " NIcoins";
+            document.getElementById('dash-balance').innerText = userBalance;
+            renderDepositsTable();
+            
+            alert("Success! Micro-Hub IoT Sensor verified deposit of 2.0 kg. +20 NIcoins credited to your wallet.");
+        }
+
+        // Redeem Reward Voucher
+        function redeemReward(rewardName, cost) {
+            if(userBalance >= cost) {
+                userBalance -= cost;
+                document.getElementById('header-balance').innerText = userBalance + " NIcoins";
+                document.getElementById('dash-balance').innerText = userBalance;
+                alert(`Successfully redeemed voucher for "${rewardName}"! ${cost} NIcoins deducted from your wallet.`);
+            } else {
+                alert("Insufficient NIcoin balance! Deposit more recyclable waste at your nearest Eco-Transit Micro-Hub to earn more tokens.");
+            }
+        }
+    </script>
+</body>
+</html>
